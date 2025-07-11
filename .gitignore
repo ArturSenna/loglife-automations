@@ -205,3 +205,15 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# LogLife Automations specific
+.env
+logs/*.log
+data/temp/
+*.tmp
+.DS_Store
+
+# Virtual environment
+venv/
+env/
+.venv/
