@@ -374,7 +374,7 @@ def sla_last_mile():
                   entregas['REGIONAL'] == 4,
                   entregas['REGIONAL'] == 5],
         choicelist=['Filial SP', 'Filial DF', 'Filial RJ', 'Brasil', 'Brasil'],
-        default=0
+        default=''
     )
 
     entregas['ESTADO'] = services['serviceIDRequested.budgetIDService.destination_hub_id'].map(get_hub_state)
@@ -759,25 +759,31 @@ def sla_transferencia():
 
 def export_to_excel(df, excel_name, sheet, clear_range, autofit=True, change_header=True):
     app = xw.App(visible=False)
-    wb = xw.Book(f'{excel_name}')
-    ws = wb.sheets[f'{sheet}']
-    app.kill()
-    if wb.sheets[f'{sheet}'].api.AutoFilter:
-        wb.sheets[f'{sheet}'].api.AutoFilter.ShowAllData()
-    ws.range(clear_range).clear_contents()
+    try:
+        wb = xw.Book(f'{excel_name}')
+        ws = wb.sheets[f'{sheet}']
+        
+        if ws.api.AutoFilter:
+            ws.api.AutoFilter.ShowAllData()
+        ws.range(clear_range).clear_contents()
 
-    if change_header:
-        start_write = "A1"
-        header_config = 1
-    else:
-        start_write = "A2"
-        header_config = 0
+        if change_header:
+            start_write = "A1"
+            header_config = 1
+        else:
+            start_write = "A2"
+            header_config = 0
 
-    # Inserção do DataFrame na planilha
-    ws[f"{start_write}"].options(pd.DataFrame, header=header_config, index=False, expand='table').value = df
+        # Inserção do DataFrame na planilha
+        ws[f"{start_write}"].options(pd.DataFrame, header=header_config, index=False, expand='table').value = df
 
-    if autofit:
-        ws.autofit('r')
+        if autofit:
+            ws.autofit('r')
+        
+        wb.save()
+    finally:
+        app.quit()
+        app.kill()
 
 
 def clear_data(*sheet):
@@ -785,15 +791,19 @@ def clear_data(*sheet):
 
     CoInitialize()
 
-    for value in sheet:
-        app = xw.App(visible=False)
+    app = xw.App(visible=False)
+    try:
         wb = xw.Book(f"{file_name}")
-        terms = value.split(';')
-        ws = wb.sheets[f'{terms[0]}']
+        for value in sheet:
+            terms = value.split(';')
+            ws = wb.sheets[f'{terms[0]}']
+            if ws.api.AutoFilter:
+                ws.api.AutoFilter.ShowAllData()
+            ws.range(terms[1]).clear_contents()
+        wb.save()
+    finally:
+        app.quit()
         app.kill()
-        if wb.sheets[f'{terms[0]}'].api.AutoFilter:
-            wb.sheets[f'{terms[0]}'].api.AutoFilter.ShowAllData()
-        ws.range(terms[1]).clear_contents()
 
 
 # noinspection PyGlobalUndefined
