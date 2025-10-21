@@ -8,6 +8,7 @@ import pandas as pd
 import requests
 import xlwings as xw
 from pythoncom import CoInitialize
+from selenium.common.exceptions import WebDriverException
 
 
 class Start:

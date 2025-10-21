@@ -5,7 +5,14 @@ import base64
 import numpy as np
 import pandas as pd
 import win32com.client
-from twocaptcha_solve import solve_captcha
+from tkinter import StringVar, IntVar, CENTER, BOTTOM
+import tkinter.ttk as ttk
+import customtkinter as ctk
+import sys
+from pathlib import Path
+# Add parent directory to path to enable absolute imports
+sys.path.append(str(Path(__file__).parent.parent))
+from utils.twocaptcha_solve import solve_captcha
 from pythoncom import CoInitialize
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException, ElementClickInterceptedException, \
@@ -16,8 +23,7 @@ from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.firefox.service import Service
 from webdriver_manager.firefox import GeckoDriverManager
 import tempfile
-
-from functions import *
+from utils.functions import *
 
 
 # noinspection PyTypeChecker
@@ -933,7 +939,7 @@ def minutas_api(input_prot, multiple=False, prot_strings="", flight_service=0, m
 
     if driver_fox is None:
         firefox = Service(
-            GeckoDriverManager(path=tempfile.gettempdir()).install(),
+            GeckoDriverManager().install(),
             log_path=f"{tempfile.gettempdir()}/geckodriver.log"
         )
     else:
@@ -1797,7 +1803,7 @@ def minutas_all_api(start_date, end_date, folderpath, downloadpath, prot_entry, 
         return p_string
 
     firefox_driver = Service(
-        GeckoDriverManager(path=tempfile.gettempdir()).install(),
+        GeckoDriverManager().install(),
         log_path=f"{tempfile.gettempdir()}/geckodriver.log")
 
     # Pegar datas
@@ -2562,7 +2568,7 @@ def fleury_sheet(date, filename):
                     services['RECEBEDOR']])
 
     services['CIDADE'] = services['serviceIDRequested.source_address_id'].map(get_city)
-    services['HOUR'] = services['HORA INÍCIO'] + ' \ ' + services['HORA FIM']
+    services['HOUR'] = services['HORA INÍCIO'] + ' \\ ' + services['HORA FIM']
     services['DATA'] = excel_date(di_dt)
     services['SETOR'] = np.select(
         condlist=[(services['serviceIDRequested.budget_id'] == 'da9c8052-a97b-4453-928c-d0d5d03dab54') |

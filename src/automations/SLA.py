@@ -279,7 +279,7 @@ def sla_last_mile():
                   coletas['REGIONAL'] == 3,
                   coletas['REGIONAL'] == 4,
                   coletas['REGIONAL'] == 5],
-        choicelist=['Filial SP', 'Monitoramento', 'Filial RJ', 'Monitoramento', 'Monitoramento'],
+        choicelist=['Filial SP', 'Filial DF', 'Filial RJ', 'Brasil', 'Brasil'],
         default=''
     )
 
@@ -373,7 +373,7 @@ def sla_last_mile():
                   entregas['REGIONAL'] == 3,
                   entregas['REGIONAL'] == 4,
                   entregas['REGIONAL'] == 5],
-        choicelist=['Filial SP', 'Monitoramento', 'Filial RJ', 'Monitoramento', 'Monitoramento'],
+        choicelist=['Filial SP', 'Filial DF', 'Filial RJ', 'Brasil', 'Brasil'],
         default=0
     )
 
@@ -851,13 +851,14 @@ def start_clear():
     if do_last_mile.get():
         start_thread(clear_data, progressbar, arguments=["Coletas;A2:I20000", "Entregas;A2:I20000"])
 
-# def resource_path(relative_path):
-#     try:
-#         base_path = sys._MEIPASS
-#     except Exception as e:
-#         base_path = os.path.abspath(f"{e}.")
-#
-#     return os.path.join(base_path, relative_path)
+def resource_path(relative_path):
+    try:
+        import sys
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+    
+    return os.path.join(base_path, relative_path)
 
 
 r = RequestDataFrame()
@@ -893,9 +894,11 @@ states = pd.DataFrame([['ACRE', 'AC'],
 # Create Object
 root = Tk()
 root.title('SLA LogLife')
-# root.iconbitmap(resource_path("my_icon.ico"))
+try:
+    root.iconbitmap(resource_path("assets/my_icon.ico"))
+except:
+    pass  # Fallback if icon is not found
 root.resizable(False, False)
-# root.iconbitmap('my_icon.ico')
 tabs = ttk.Notebook(root)
 
 # Setting tabs

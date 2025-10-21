@@ -182,7 +182,7 @@ class FileSelector(ctk.CTkFrame):
         self.file_display.configure(text=text)
 
 
-class LogLifeApp(ctk.CTk):
+class LogLifeModernApp(ctk.CTk):
     """Modern LogLife Operations Application"""
     
     def __init__(self):
@@ -900,16 +900,10 @@ class LogLifeApp(ctk.CTk):
         )
         self.fleury_selector.update_display(self.fleury_sheet_name.get())
 
-    @staticmethod
-    def change_scaling_event(new_scaling: str):
-        """Legacy method for compatibility"""
-        new_scaling_float = int(new_scaling.replace("%", "")) / 100
-        ctk.set_widget_scaling(new_scaling_float)
-
 
 def main():
     """Main entry point"""
-    app = LogLifeApp()
+    app = LogLifeModernApp()
     app.mainloop()
 
 
