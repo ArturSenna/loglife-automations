@@ -224,5 +224,8 @@ dist/
 build/
 *.exe
 
+# Installer output
+installer_output/
+
 # Large data files (use external storage or Git LFS)
 Tabela_Malha_ID.csv

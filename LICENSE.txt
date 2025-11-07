@@ -1,0 +1,31 @@
+LOGLIFE OPERATIONS - SOFTWARE LICENSE AGREEMENT
+
+Copyright (C) 2025 LogLife
+
+This software is proprietary and confidential.
+
+GRANT OF LICENSE
+LogLife grants you a non-exclusive, non-transferable license to use this
+software for internal business purposes only.
+
+RESTRICTIONS
+You may not:
+- Modify, reverse engineer, or decompile the software
+- Distribute or sell the software to third parties
+- Remove any copyright or proprietary notices
+
+DISCLAIMER OF WARRANTY
+This software is provided "AS IS" without warranty of any kind, either
+expressed or implied, including but not limited to the implied warranties
+of merchantability and fitness for a particular purpose.
+
+LIMITATION OF LIABILITY
+In no event shall LogLife be liable for any damages whatsoever arising
+out of the use of or inability to use this software.
+
+TERMINATION
+This license is effective until terminated. Your rights under this license
+will terminate automatically without notice if you fail to comply with any
+of its terms.
+
+For questions or support, contact your system administrator.
