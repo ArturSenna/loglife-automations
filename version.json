@@ -1,0 +1,12 @@
+{
+  "version": "1.0.0",
+  "build_date": "2025-11-07",
+  "download_url": "https://github.com/ArturSenna/loglife-automations/releases/latest",
+  "notes": "Versão inicial do sistema de atualização automática.",
+  "min_required_version": "1.0.0",
+  "changelog": [
+    "Sistema de verificação de atualizações",
+    "Interface gráfica melhorada",
+    "Correções de bugs"
+  ]
+}

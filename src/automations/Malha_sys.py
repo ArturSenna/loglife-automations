@@ -83,7 +83,7 @@ bases['Base-final-origem'] = bases[['Base', 'shippingIDBranch.company_name']].ag
 bases['Base-final-destino'] = bases['Base-final-origem']
 bases.drop(bases[bases['situation'] == 'inactive'].index, inplace=True)
 
-malha = pd.read_excel('Tabela_Malha.xlsx')
+malha = pd.read_excel('src/excel/Tabela_Malha.xlsx')
 
 malha.drop('Unnamed: 0', axis=1, inplace=True)
 malha.columns = malha.iloc[0]

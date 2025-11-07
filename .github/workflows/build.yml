@@ -1,0 +1,82 @@
+name: Build LogLife Operations Executable
+
+on:
+  push:
+    tags:
+      - "v*" # Trigger on version tags like v1.0.0
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pyinstaller pyinstaller-hooks-contrib
+
+      - name: Build executable
+        run: |
+          pyinstaller main_ctk.spec --clean --noconfirm
+
+      - name: Get version
+        id: get_version
+        run: |
+          $version = (Get-Content version.json | ConvertFrom-Json).version
+          echo "VERSION=$version" >> $env:GITHUB_OUTPUT
+        shell: powershell
+
+      - name: Create release folder
+        run: |
+          mkdir release
+          copy dist\LogLife_Operacao.exe release\LogLife_Operacao.exe
+          copy version.json release\version.json
+          copy BUILD_UPDATE_GUIDE.md release\README.md
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: LogLife-Operations-${{ steps.get_version.outputs.VERSION }}
+          path: release/
+
+      - name: Create Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            release/LogLife_Operacao.exe
+            release/version.json
+            release/README.md
+          body: |
+            ## LogLife Operations ${{ steps.get_version.outputs.VERSION }}
+
+            ### 📦 Download
+            Download `LogLife_Operacao.exe` below and run it on your Windows machine.
+
+            ### 📋 Installation
+            1. Download the executable
+            2. Place it in a folder of your choice
+            3. Double-click to run (no installation required)
+
+            ### 🔄 Updating
+            If you have a previous version:
+            1. Close the old version
+            2. Replace the old .exe file with this new one
+            3. Run the new version
+
+            The application includes automatic update checking!
+
+            ---
+            **Full changelog**: See README.md for details
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

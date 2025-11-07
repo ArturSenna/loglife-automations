@@ -2410,7 +2410,8 @@ def fleury_sheet(date, filename):
         services[
             (services['customerIDService.trading_firstname'] != 'FLEURY') &
             (services['customerIDService.trading_firstname'] != 'PRETTI') &
-            (services['customerIDService.trading_firstname'] != 'BIOCLINICO')
+            (services['customerIDService.trading_firstname'] != 'BIOCLINICO') &
+            (services['customerIDService.trading_firstname'] != 'HERMES PARDINI')
         ].index,
         inplace=True)
 
